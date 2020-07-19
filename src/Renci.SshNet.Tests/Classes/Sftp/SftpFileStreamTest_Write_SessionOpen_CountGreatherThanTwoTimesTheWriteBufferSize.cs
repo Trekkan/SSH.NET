@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Renci.SshNet.Common;
 using Renci.SshNet.Sftp;
 using Renci.SshNet.Sftp.Responses;
 
@@ -118,8 +119,8 @@ namespace Renci.SshNet.Tests.Classes.Sftp
         [TestMethod]
         public void LengthShouldFlushBufferAndReturnSizeOfFile()
         {
-            var lengthFileAttributes = new SftpFileAttributes(DateTime.Now,
-                                                              DateTime.Now,
+            var lengthFileAttributes = new SftpFileAttributes(DateTime.UtcNow,
+                                                              DateTime.UtcNow,
                                                               _random.Next(),
                                                               _random.Next(),
                                                               _random.Next(),

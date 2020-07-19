@@ -7,6 +7,7 @@ using Renci.SshNet.Sftp;
 using Renci.SshNet.Tests.Common;
 using System.Threading;
 using Renci.SshNet.Sftp.Responses;
+using Renci.SshNet.Common;
 
 namespace Renci.SshNet.Tests.Classes.Sftp
 {
@@ -53,8 +54,8 @@ namespace Renci.SshNet.Tests.Classes.Sftp
             _fileAttributes = new SftpFileAttributesBuilder().WithExtension("X", "ABC")
                                                              .WithExtension("V", "VValue")
                                                              .WithGroupId(random.Next())
-                                                             .WithLastAccessTime(DateTime.Now.AddSeconds(random.Next()))
-                                                             .WithLastWriteTime(DateTime.Now.AddSeconds(random.Next()))
+                                                             .WithLastAccessTime(DateTime.UtcNow.AddSeconds(random.Next()))
+                                                             .WithLastWriteTime(DateTime.UtcNow.AddSeconds(random.Next()))
                                                              .WithPermissions((uint)random.Next())
                                                              .WithSize(_length + 100)
                                                              .WithUserId(random.Next())

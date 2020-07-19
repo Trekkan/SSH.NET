@@ -12,7 +12,7 @@ namespace Renci.SshNet.Tests.Common
         private int? _userId;
         private int? _groupId;
         private uint? _permissions;
-        private IDictionary<string, string> _extensions;
+        private readonly IDictionary<string, string> _extensions;
 
         public SftpFileAttributesBuilder()
         {
@@ -64,17 +64,23 @@ namespace Renci.SshNet.Tests.Common
         public SftpFileAttributes Build()
         {
             if (_lastAccessTime == null)
-                throw new ArgumentException();
+                _lastAccessTime = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+            else if (_lastAccessTime.Value.Kind != DateTimeKind.Utc)
+                _lastAccessTime = _lastAccessTime.Value.ToUniversalTime();
+
             if (_lastWriteTime == null)
-                throw new ArgumentException();
+                _lastWriteTime = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+            else if (_lastWriteTime.Value.Kind != DateTimeKind.Utc)
+                _lastWriteTime = _lastWriteTime.Value.ToUniversalTime();
+
             if (_size == null)
-                throw new ArgumentException();
+                _size = 0;
             if (_userId == null)
-                throw new ArgumentException();
+                _userId = 0;
             if (_groupId == null)
-                throw new ArgumentException();
+                _groupId = 0;
             if (_permissions == null)
-                throw new ArgumentException();
+                _permissions = 0;
 
             return new SftpFileAttributes(_lastAccessTime.Value,
                                           _lastWriteTime.Value,
